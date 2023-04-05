@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const AWS = require('aws-sdk');
-const config = require('./conifg')
+const config = require('./config')
 
 const app = express();
 const port = 9600;
@@ -60,6 +60,22 @@ app.post('/upload', (req, res) => {
       const url = `https://${hostname}/${bucketName}/${key}`;
       res.send(url);
     });
+  });
+});
+
+// get file list api
+app.get('/list', (req, res) => {
+  const params = {
+    Bucket: bucketName,
+  };
+
+  s3.listObjects(params, (err, data) => {
+    if (err) {
+      res.status(500).send('Failed to get file list.');
+      return;
+    }
+    const items = data.Contents
+    res.send(items);
   });
 });
 
