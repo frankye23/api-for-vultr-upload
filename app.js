@@ -63,6 +63,22 @@ app.post('/upload', (req, res) => {
   });
 });
 
+// get file list api
+app.get('/list', (req, res) => {
+  const params = {
+    Bucket: bucketName,
+  };
+
+  s3.listObjects(params, (err, data) => {
+    if (err) {
+      res.status(500).send('Failed to get file list.');
+      return;
+    }
+    const items = data.Contents
+    res.send(items);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
 });
