@@ -1,9 +1,12 @@
 const express = require('express');
 const multer = require('multer');
+const cors = require('cors');
 const AWS = require('aws-sdk');
 const config = require('./config')
 
 const app = express();
+app.use(cors());
+
 const port = 9600;
 
 const accessKeyId = config.accessKeyId;
